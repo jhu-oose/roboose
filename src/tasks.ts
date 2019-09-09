@@ -138,6 +138,30 @@ program
     );
   });
 
+program.command("insights <assignment>").action(async assignment => {
+  const octokit = robooseOctokit();
+  const feedbacks = await octokit.paginate(
+    octokit.issues.listComments.endpoint.merge({
+      owner: "jhu-oose",
+      repo: `${process.env.COURSE}-staff`,
+      issue_number: Number(process.env.ISSUE_FEEDBACKS)
+    })
+  );
+  let sum = 0;
+  for (const feedback of feedbacks) {
+    const {
+      assignment:presentAssignment,
+      feedback: {
+        assignment: { hours }
+      }
+    } = unserialize(feedback.body);
+    if (presentAssignment !== assignment) continue;
+    sum += Number(hours);
+  }
+  const avg = sum / feedbacks.length;
+  console.log(avg);
+});
+
 program.command("students:delete <github>").action(async github => {
   const octokit = robooseOctokit();
   console.log(
