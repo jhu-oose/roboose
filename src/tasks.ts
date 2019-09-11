@@ -147,16 +147,42 @@ program.command("insights <assignment>").action(async assignment => {
       issue_number: Number(process.env.ISSUE_FEEDBACKS)
     })
   );
+
   let sum = 0;
+
+  let assignmentConfidences = [];
+  let assignmentHours = [];
+  let assignmentRelevances = [];
+  let assignmentDifficulties = [];
+  let assignmentLoads = [];
+
+  let lectureDifficulties = [];
+  let lectureRelevances = [];
+  let lectureLoads = [];
+  let lectureConfidences = [];
+  
   for (const feedback of feedbacks) {
     const {
       assignment:presentAssignment,
       feedback: {
-        assignment: { hours }
+        assignment: { hours, confidence, relevance, difficulty, load },
+        lecture,
+        toolbox
       }
     } = unserialize(feedback.body);
     if (presentAssignment !== assignment) continue;
     sum += Number(hours);
+
+    assignmentConfidences.push(confidence);
+    assignmentDifficulties.push(difficulty);
+    assignmentRelevances.push(relevance);
+    assignmentHours.push(hours);
+    assignmentLoads.push(load);
+
+    lectureConfidences.push(lecture['confidence'])
+    lectureDifficulties.push(lecture['difficulty'])
+    lectureLoads.push(lecture['load'])
+    lectureRelevances.push(lecture['relevance'])
   }
   const avg = sum / feedbacks.length;
   console.log(avg);
