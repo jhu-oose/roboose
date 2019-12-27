@@ -1440,8 +1440,7 @@ async function startStudentsGrade(
   const parts = (await getStaffFile(template)).match(/(?<=^# ).*/gm);
   if (parts === null) {
     console.error(`File ${template} doesn’t include headings for parts.`);
-    process.exit(1);
-    throw null;
+    return process.exit(1);
   }
   const milestone = (await octokit.issues.createMilestone({
     owner: "jhu-oose",
@@ -1679,8 +1678,7 @@ function extractTotal(grade: string): number {
   const gradeMatch = grade.match(/^\*\*Total:\*\* (\d+)\/100$/m);
   if (gradeMatch === null) {
     console.error(`Failed to extract total from:\n\n${grade}`);
-    process.exit(1);
-    throw null;
+    return process.exit(1);
   }
   return Math.max(0, Number(gradeMatch[1]));
 }
