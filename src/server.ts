@@ -19,7 +19,7 @@ export = (app: Application) => {
       await octokit.issues.createComment({
         owner: "jhu-oose",
         repo: `${process.env.COURSE}-staff`,
-        issue_number: Number(process.env.ISSUE_STUDENTS),
+        issue_number: await getTableIndex(octokit, "students"),
         body: serialize(req.body)
       });
       await octokit.teams.addOrUpdateMembership({
@@ -52,35 +52,15 @@ export = (app: Application) => {
         username: github,
         permission: "admin"
       });
-      await octokit.repos.createOrUpdateFile({
-        owner: "jhu-oose",
-        repo: `${process.env.COURSE}-student-${github}`,
-        path: "README.md",
-        message: "Add README.md",
-        content: (await octokit.repos.getContents({
-          owner: "jhu-oose",
-          repo: `${process.env.COURSE}-staff`,
-          path: "templates/students/README.md"
-        })).data.content
-      });
-      await octokit.repos.createOrUpdateFile({
-        owner: "jhu-oose",
-        repo: `${process.env.COURSE}-student-${github}`,
-        path: "assignments/0.md",
-        message: "Add assignments/0.md",
-        content: (await octokit.repos.getContents({
-          owner: "jhu-oose",
-          repo: `${process.env.COURSE}-staff`,
-          path: "templates/students/assignments/0.md"
-        })).data.content
-      });
       res.redirect(
-        "https://www.jhu-oose.com/assignments/0/student-registration"
+      // CHANGE THIS URL
+        "https://www.jhu-oose.com/onboarding_success/"
       );
     } catch (error) {
       console.error(error);
       res.redirect(
-        "https://www.jhu-oose.com/assignments/0/student-registration/error"
+      // CHANGE THIS URL
+        "https://www.jhu-oose.com/onboarding_error/"
       );
     }
   });
@@ -98,7 +78,7 @@ export = (app: Application) => {
       await octokit.issues.createComment({
         owner: "jhu-oose",
         repo: `${process.env.COURSE}-staff`,
-        issue_number: Number(process.env.ISSUE_FEEDBACKS),
+        issue_number: await getTableIndex(octokit, "feedbacks"),
         body: serialize({ assignment, feedback })
       });
       await octokit.repos.getContents({
@@ -116,7 +96,7 @@ export = (app: Application) => {
       await octokit.issues.createComment({
         owner: "jhu-oose",
         repo: `${process.env.COURSE}-staff`,
-        issue_number: Number(process.env.ISSUE_ASSIGNMENTS),
+        issue_number: await getTableIndex(octokit, "assignments"),
         body: serialize(submission)
       });
       await octokit.issues.create({
@@ -154,7 +134,7 @@ export = (app: Application) => {
       await octokit.issues.createComment({
         owner: "jhu-oose",
         repo: `${process.env.COURSE}-staff`,
-        issue_number: Number(process.env.ISSUE_GROUPS),
+        issue_number: await getTableIndex(octokit, "groups"),
         body: serialize({ identifier, members, advisors })
       });
       for (const member of members) {
@@ -244,6 +224,25 @@ function robooseOctokit(): Octokit {
       onAbuseLimit: () => true
     }
   });
+}
+
+async function getConfiguration(octokit: Octokit): Promise<any> {
+  return JSON.parse(await getStaffFile(octokit, "configuration.json"));
+}
+
+async function getStaffFile(octokit: Octokit, path: string): Promise<string> {
+  return Buffer.from(
+    (await octokit.repos.getContents({
+      owner: "jhu-oose",
+      repo: `${process.env.COURSE}-staff`,
+      path
+    })).data.content,
+    "base64"
+  ).toString();
+}
+
+async function getTableIndex(octokit: Octokit, table: string): Promise<number> {
+  return (await getConfiguration(octokit)).database[table];
 }
 
 function serialize(data: any): string {
