@@ -52,14 +52,24 @@ export = (app: Application) => {
         username: github,
         permission: "admin"
       });
+      // change this to add assignment 1 template
+      await octokit.repos.createOrUpdateFile({
+        owner: "jhu-oose",
+        repo: `${process.env.COURSE}-student-${github}`,
+        path: "homeworks/1.md",
+        message: "Add Homework 1 template - 1.md",
+        content: (await octokit.repos.getContents({
+          owner: "jhu-oose",
+          repo: `${process.env.COURSE}-staff`,
+          path: "templates/students/homeworks/1.md"
+        })).data.content
+      });
       res.redirect(
-      // CHANGE THIS URL
         "https://www.jhu-oose.com/onboarding_success/"
       );
     } catch (error) {
       console.error(error);
       res.redirect(
-      // CHANGE THIS URL
         "https://www.jhu-oose.com/onboarding_error/"
       );
     }
@@ -67,7 +77,7 @@ export = (app: Application) => {
 
   router.post("/assignments", async (req, res) => {
     try {
-      const { assignment, github, commit, feedback } = req.body;
+      const { assignment, github, commit } = req.body;
       if (
         assignment === undefined ||
         github === undefined ||
@@ -75,16 +85,16 @@ export = (app: Application) => {
       )
         throw "Incomplete form";
       const octokit = robooseOctokit();
-      await octokit.issues.createComment({
-        owner: "jhu-oose",
-        repo: `${process.env.COURSE}-staff`,
-        issue_number: await getTableIndex(octokit, "feedbacks"),
-        body: serialize({ assignment, feedback })
-      });
+      // await octokit.issues.createComment({
+      //   owner: "jhu-oose",
+      //   repo: `${process.env.COURSE}-staff`,
+      //   issue_number: await getTableIndex(octokit, "feedbacks"),
+      //   body: serialize({ assignment, feedback })
+      // });
       await octokit.repos.getContents({
         owner: "jhu-oose",
         repo: `${process.env.COURSE}-student-${github}`,
-        path: `assignments/${assignment}.md`,
+        path: `homeworks/${assignment}.md`,
         ref: commit
       });
       const submission = {
@@ -102,16 +112,16 @@ export = (app: Application) => {
       await octokit.issues.create({
         owner: "jhu-oose",
         repo: `${process.env.COURSE}-student-${github}`,
-        title: `Assignment ${assignment} received`,
+        title: `Homework ${assignment} received`,
         body: `${serialize(submission)}
 
 /cc @${github}
 `
       });
-      res.redirect("https://www.jhu-oose.com/assignments/submission");
+      res.redirect("https://www.jhu-oose.com/homework_submission_success");
     } catch (error) {
       console.error(error);
-      res.redirect("https://www.jhu-oose.com/assignments/submission/error");
+      res.redirect("https://www.jhu-oose.com/homework_submission_error");
     }
   });
 
