@@ -65,12 +65,12 @@ export = (app: Application) => {
         })).data.content
       });
       res.redirect(
-        "https://www.jhu-oose.com/onboarding_success/"
+        "https://madooei.github.io/cs421_sp20_homepage/onboarding_success/"
       );
     } catch (error) {
       console.error(error);
       res.redirect(
-        "https://www.jhu-oose.com/onboarding_error/"
+        "https://madooei.github.io/cs421_sp20_homepage/onboarding_error/"
       );
     }
   });
@@ -118,10 +118,10 @@ export = (app: Application) => {
 /cc @${github}
 `
       });
-      res.redirect("https://www.jhu-oose.com/homework_submission_success");
+      res.redirect("https://madooei.github.io/cs421_sp20_homepage/homework_submission_success");
     } catch (error) {
       console.error(error);
-      res.redirect("https://www.jhu-oose.com/homework_submission_error");
+      res.redirect("https://madooei.github.io/cs421_sp20_homepage/homework_submission_error");
     }
   });
 
@@ -207,11 +207,11 @@ export = (app: Application) => {
           path: "templates/groups/docs/project-proposal.md"
         })).data.content
       });
-      res.redirect("https://www.jhu-oose.com/iterations/0/group-registration");
+      res.redirect("https://madooei.github.io/cs421_sp20_homepage/iterations/0/group-registration");
     } catch (error) {
       console.error(error);
       res.redirect(
-        "https://www.jhu-oose.com/iterations/0/group-registration/error"
+        "https://madooei.github.io/cs421_sp20_homepage/iterations/0/group-registration/error"
       );
     }
   });

@@ -154,7 +154,7 @@ program
         await octokit.repos.getContents({
           owner: "jhu-oose",
           repo: `${process.env.COURSE}-student-${github}`,
-          path: "assignments/0.md"
+          path: "homeworks/1.md"
         });
       } catch (error) {
         console.error(
@@ -867,7 +867,7 @@ program
       await octokit.issues.create({
         owner: "jhu-oose",
         repo: `${process.env.COURSE}-group-${github}`,
-        title: `Sprint ${iteration} received`,
+        title: `Iteration ${iteration} received`,
         body: `${serialize(submission)}
 
 /cc @jhu-oose/${process.env.COURSE}-group-${slugify(github)}
@@ -887,15 +887,15 @@ program
       submission => submission.iteration === iteration
     );
     const template = await getStaffFile(
-      `templates/groups/sprints/${iteration}.md`
+      `templates/groups/iterations/${iteration}.md`
     );
     const milestone = (await octokit.issues.createMilestone({
       owner: "jhu-oose",
       repo: `${process.env.COURSE}-staff`,
-      title: `Grade Sprint ${iteration}`
+      title: `Grade Iteration ${iteration}`
     })).data.number;
     for (const { github, commit } of submissions) {
-      const path = `grades/groups/sprints/${iteration}/${github}.md`;
+      const path = `grades/groups/iterations/${iteration}/${github}.md`;
       const advisor = advisors[github];
       await octokit.repos.createOrUpdateFile({
         owner: "jhu-oose",
@@ -907,7 +907,7 @@ program
       await octokit.issues.create({
         owner: "jhu-oose",
         repo: `${process.env.COURSE}-staff`,
-        title: `Grade Sprint ${iteration} · ${github}`,
+        title: `Grade Iteration ${iteration} · ${github}`,
         labels: ["iteration"],
         milestone,
         assignees: [advisor],
@@ -925,7 +925,7 @@ program
     "publish the grades for an iteration; this is similar to the assignments:grades:publish command"
   )
   .action(async iteration => {
-    const gradesPath = `grades/groups/sprints/${iteration}`;
+    const gradesPath = `grades/groups/iterations/${iteration}`;
     for (const node of await listStaffDirectory(gradesPath)) {
       const github = node.slice(0, node.length - ".md".length);
       const grade = await getStaffFile(`${gradesPath}/${node}`);
@@ -933,7 +933,7 @@ program
       await octokit.issues.create({
         owner: "jhu-oose",
         repo: `${process.env.COURSE}-group-${github}`,
-        title: `Grade for Sprint ${iteration}`,
+        title: `Grade for Iteration ${iteration}`,
         body: `${grade}
 
 ---
@@ -950,7 +950,7 @@ ${footer(`jhu-oose/${process.env.COURSE}-group-${slugify(github)}`)}
           owner: "jhu-oose",
           repo: `${process.env.COURSE}-staff`
         })
-      )).find(milestone => milestone.title === `Grade Sprint ${iteration}`)
+      )).find(milestone => milestone.title === `Grade Iteration ${iteration}`)
         .number,
       state: "closed"
     });
