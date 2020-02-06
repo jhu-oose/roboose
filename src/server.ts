@@ -85,12 +85,6 @@ export = (app: Application) => {
       )
         throw "Incomplete form";
       const octokit = robooseOctokit();
-      // await octokit.issues.createComment({
-      //   owner: "jhu-oose",
-      //   repo: `${process.env.COURSE}-staff`,
-      //   issue_number: await getTableIndex(octokit, "feedbacks"),
-      //   body: serialize({ assignment, feedback })
-      // });
       await octokit.repos.getContents({
         owner: "jhu-oose",
         repo: `${process.env.COURSE}-student-${github}`,
@@ -207,11 +201,11 @@ export = (app: Application) => {
           path: "templates/groups/docs/project-proposal.md"
         })).data.content
       });
-      res.redirect("https://madooei.github.io/cs421_sp20_homepage/iterations/0/group-registration");
+      res.redirect("https://madooei.github.io/cs421_sp20_homepage/group_creation_success");
     } catch (error) {
       console.error(error);
       res.redirect(
-        "https://madooei.github.io/cs421_sp20_homepage/iterations/0/group-registration/error"
+        "https://madooei.github.io/cs421_sp20_homepage/group_creation_error"
       );
     }
   });
