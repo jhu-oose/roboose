@@ -1185,7 +1185,9 @@ program
   .description(
     "this doesn’t do anything by default; it exists so that you can quickly write a script to run once; don’t commit changes to this command"
   )
-  .action(async () => {});
+  .action(async () => {
+
+  });
 
 dotenv.config();
 
@@ -1306,7 +1308,7 @@ async function getTable(table: string): Promise<any[]> {
     octokit.issues.listComments.endpoint.merge({
       owner: "jhu-oose",
       repo: `${process.env.COURSE}-staff`,
-      issue_number: getTableIndex(table)
+      issue_number: await getTableIndex(table)
     })
   )).map(response => deserialize(response.body));
 }
