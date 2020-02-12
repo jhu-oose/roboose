@@ -112,10 +112,10 @@ export = (app: Application) => {
 /cc @${github}
 `
       });
-      res.redirect("https://madooei.github.io/cs421_sp20_homepage/homework_submission_success");
+      res.redirect("https://madooei.github.io/cs421_sp20_homepage/homework_submission_success/");
     } catch (error) {
       console.error(error);
-      res.redirect("https://madooei.github.io/cs421_sp20_homepage/homework_submission_error");
+      res.redirect("https://madooei.github.io/cs421_sp20_homepage/homework_submission_error/");
     }
   });
 
@@ -201,11 +201,11 @@ export = (app: Application) => {
           path: "templates/groups/docs/project-proposal.md"
         })).data.content
       });
-      res.redirect("https://madooei.github.io/cs421_sp20_homepage/group_creation_success");
+      res.redirect("https://madooei.github.io/cs421_sp20_homepage/group_creation_success/");
     } catch (error) {
       console.error(error);
       res.redirect(
-        "https://madooei.github.io/cs421_sp20_homepage/group_creation_error"
+        "https://madooei.github.io/cs421_sp20_homepage/group_creation_error/"
       );
     }
   });
