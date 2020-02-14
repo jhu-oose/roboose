@@ -123,24 +123,15 @@ export = (app: Application) => {
     try {
       const {
         identifier,
-        members: membersWithSpaces,
-        advisors: advisorsWithSpaces
+        members: membersWithSpaces
       } = req.body;
       if (
         identifier === undefined ||
-        membersWithSpaces === undefined ||
-        advisorsWithSpaces === undefined
+        membersWithSpaces === undefined
       )
         throw "Incomplete form";
       const members = membersWithSpaces.filter((x: string) => x !== "");
-      const advisors = advisorsWithSpaces.filter((x: string) => x !== "");
       const octokit = robooseOctokit();
-      await octokit.issues.createComment({
-        owner: "jhu-oose",
-        repo: `${process.env.COURSE}-staff`,
-        issue_number: await getTableIndex(octokit, "groups"),
-        body: serialize({ identifier, members, advisors })
-      });
       for (const member of members) {
         await octokit.teams.getMembership({
           team_id: (await octokit.teams.getByName({
