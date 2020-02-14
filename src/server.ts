@@ -193,12 +193,12 @@ export = (app: Application) => {
       await octokit.repos.createOrUpdateFile({
         owner: "jhu-oose",
         repo: `${process.env.COURSE}-group-${identifier}`,
-        path: "docs/project-proposal.md",
-        message: "Add docs/project-proposal.md",
+        path: "docs/RSD.md",
+        message: "Add docs/RSD.md",
         content: (await octokit.repos.getContents({
           owner: "jhu-oose",
           repo: `${process.env.COURSE}-staff`,
-          path: "templates/groups/docs/project-proposal.md"
+          path: "templates/groups/docs/RSD.md"
         })).data.content
       });
       res.redirect("https://madooei.github.io/cs421_sp20_homepage/group_creation_success/");
