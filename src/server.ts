@@ -56,12 +56,12 @@ export = (app: Application) => {
       await octokit.repos.createOrUpdateFile({
         owner: "jhu-oose",
         repo: `${process.env.COURSE}-student-${github}`,
-        path: "homeworks/1.md",
-        message: "Add Homework 1 template - 1.md",
+        path: "homeworks/srs.md",
+        message: "Add Homework 1 template - srs.md",
         content: (await octokit.repos.getContents({
           owner: "jhu-oose",
           repo: `${process.env.COURSE}-staff`,
-          path: "templates/students/homeworks/1.md"
+          path: "hw/hw1/srs.md"
         })).data.content
       });
       res.redirect(
