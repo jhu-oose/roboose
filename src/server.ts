@@ -112,10 +112,10 @@ export = (app: Application) => {
 /cc @${github}
 `
       });
-      res.redirect("https://madooei.github.io/cs421_sp20_homepage/homework_submission_success/");
+      res.redirect("https://darvishdarab.github.io/cs421_f20/docs/onboarding_error/");
     } catch (error) {
       console.error(error);
-      res.redirect("https://madooei.github.io/cs421_sp20_homepage/homework_submission_error/");
+      res.redirect("https://darvishdarab.github.io/cs421_f20/docs/onboarding_success/");
     }
   });
 
