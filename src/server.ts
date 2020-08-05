@@ -65,12 +65,12 @@ export = (app: Application) => {
         })).data.content
       });
       res.redirect(
-        "https://madooei.github.io/cs421_sp20_homepage/onboarding_success/"
+        "https://darvishdarab.github.io/cs421_f20/docs/onboarding_success/"
       );
     } catch (error) {
       console.error(error);
       res.redirect(
-        "https://madooei.github.io/cs421_sp20_homepage/onboarding_error/"
+        "https://darvishdarab.github.io/cs421_f20/docs/onboarding_error/"
       );
     }
   });
@@ -112,10 +112,10 @@ export = (app: Application) => {
 /cc @${github}
 `
       });
-      res.redirect("https://darvishdarab.github.io/cs421_f20/docs/onboarding_error/");
+      res.redirect("https://darvishdarab.github.io/cs421_f20/docs/onboarding_success/");
     } catch (error) {
       console.error(error);
-      res.redirect("https://darvishdarab.github.io/cs421_f20/docs/onboarding_success/");
+      res.redirect("https://darvishdarab.github.io/cs421_f20/docs/onboarding_error/");
     }
   });
 
@@ -192,11 +192,11 @@ export = (app: Application) => {
           path: "templates/groups/docs/RSD.md"
         })).data.content
       });
-      res.redirect("https://madooei.github.io/cs421_sp20_homepage/group_creation_success/");
+      res.redirect("https://darvishdarab.github.io/cs421_f20/docs/group_success/");
     } catch (error) {
       console.error(error);
       res.redirect(
-        "https://madooei.github.io/cs421_sp20_homepage/group_creation_error/"
+        "https://darvishdarab.github.io/cs421_f20/docs/group_error/"
       );
     }
   });
