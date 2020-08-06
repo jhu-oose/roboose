@@ -16,12 +16,12 @@ export = (app: Application) => {
       if (github === undefined || hopkins === undefined)
         throw "Incomplete form";
       const octokit = robooseOctokit();
-      await octokit.issues.createComment({
+      /*await octokit.issues.createComment({
         owner: "jhu-oose",
         repo: `${process.env.COURSE}-staff`,
         issue_number: await getTableIndex(octokit, "students"),
         body: serialize(req.body)
-      });
+      });*/
       await octokit.teams.addOrUpdateMembership({
         team_id: (await octokit.teams.getByName({
           org: "jhu-oose",
