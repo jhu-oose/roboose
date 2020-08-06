@@ -184,12 +184,12 @@ export = (app: Application) => {
       await octokit.repos.createOrUpdateFile({
         owner: "jhu-oose",
         repo: `${process.env.COURSE}-group-${identifier}`,
-        path: "docs/RSD.md",
-        message: "Add docs/RSD.md",
+        path: "docs/SRS.md",
+        message: "Add docs/SRS.md",
         content: (await octokit.repos.getContents({
           owner: "jhu-oose",
           repo: `${process.env.COURSE}-staff`,
-          path: "templates/groups/docs/RSD.md"
+          path: "project/srs.md"
         })).data.content
       });
       res.redirect("https://darvishdarab.github.io/cs421_f20/docs/group_success/");
