@@ -56,7 +56,7 @@ export = (app: Application) => {
       await octokit.repos.createOrUpdateFile({
         owner: "jhu-oose",
         repo: `${process.env.COURSE}-student-${github}`,
-        path: "homeworks/srs.md",
+        path: "homeworks/hw1/srs.md",
         message: "Add Homework 1 template - srs.md",
         content: (await octokit.repos.getContents({
           owner: "jhu-oose",
